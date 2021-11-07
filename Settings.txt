@@ -1,0 +1,4 @@
+Sollstueck_Tagesziel = 50
+Taktzeit_in_Minuten = 20
+
+Pausen = [(09:00, 09:15), (12:20, 12:50:15), (18:00, 18:30), (02:00, 02:30)]
