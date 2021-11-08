@@ -20,7 +20,7 @@ class TargetCalculator:
         assert type(max_target) == int
         assert type(cycle_time) == type(reset_time) == timedelta
 
-    def calculate_target(self, target_time):
+    def calculate_elapsed_working_time(self, target_time):
 
         """takes target_time as timedelta from midnight as input.
         Returns target quantity based on cycle time and breaks"""
@@ -32,11 +32,11 @@ class TargetCalculator:
         normalized_target_time = self.normalize_to_midnight(target_time)
         print(normalized_target_time)
 
-        for period in break_periods:  # period[0] = break_begin, period[1] = break_end
+        for period in self.break_periods:  # period[0] = break_begin, period[1] = break_end
             break_begin = self.normalize_to_midnight(period[0])
             break_end = self.normalize_to_midnight(period[1])
 
-            if break_end > reset_time > break_begin:  # special case break lasting over reset
+            if break_end > self.reset_time > break_begin:  # special case break lasting over reset
                 print("WARNING: Break over reset!")
                 normalized_target_time = self.account_for_pause(normalized_target_time, timedelta(hours=0), break_end)
                 normalized_target_time = self.account_for_pause(normalized_target_time, break_begin, timedelta(hours=0))
@@ -45,13 +45,26 @@ class TargetCalculator:
 
         print(normalized_target_time)
 
-        target = np.floor(normalized_target_time / cycle_time)  # use floor because target should only increase for each full cycle
+        return normalized_target_time
+
+    def calculate_target(self, target_time):
+
+        target = np.floor(self.calculate_elapsed_working_time(
+            target_time) / self.cycle_time)  # use floor because target should only increase for each full cycle
 
         print(target)
-        target = max_target if target > max_target else target
+        target = self.max_target if target > self.max_target else target
         print(target)
 
         return target
+
+    def calculate_current_countdown(self, target_time):
+
+        current_countdown = self.cycle_time - self.calculate_elapsed_working_time(target_time) % self.cycle_time
+        print(current_countdown)
+        return current_countdown
+
+
 
     def normalize_to_midnight(self, input_time):
         """
@@ -91,17 +104,19 @@ if __name__ == "__main__":
     # =========================================CONFIGURABLE=============================================================
     # todo put in config / class / function input
 
-    break_periods = [(timedelta(hours=9, minutes=0), timedelta(hours=9, minutes=15)),
+    test_break_periods = [(timedelta(hours=9, minutes=0), timedelta(hours=9, minutes=15)),
                      (timedelta(hours=12, minutes=20), timedelta(hours=12, minutes=50)),
                      (timedelta(hours=17, minutes=0), timedelta(hours=17, minutes=30)),
                      (timedelta(hours=1, minutes=0), timedelta(hours=1, minutes=30))]
 
-    reset_time = timedelta(hours=6)
-    cycle_time = timedelta(minutes=20)
-    max_target = 40
+    test_reset_time = timedelta(hours=6)
+    test_cycle_time = timedelta(minutes=20)
+    test_max_target = 40
     # ==================================================================================================================
 
-    calculator = TargetCalculator(break_periods, cycle_time, max_target, reset_time)
+    calculator = TargetCalculator(test_break_periods, test_cycle_time, test_max_target, test_reset_time)
 
     calculator.calculate_target(timedelta(hours=datetime.now().hour, minutes=datetime.now().minute))
     calculator.calculate_target(timedelta(hours=5, minutes=0))
+    calculator.calculate_current_countdown(timedelta(hours=datetime.now().hour, minutes=datetime.now().minute,
+                                                     seconds=datetime.now().second))
