@@ -51,13 +51,13 @@ body {
   font-family: 'Open Sans Semi Bold', sans-serif;
   font-weight: 500;
   line-height: 1.2;
-  font-size: 2rem;
+  font-size: 4rem;
   letter-spacing: 0.1rem;
   text-transform: uppercase;
 }
 
 .banner h6 {
-  font-size: 1.6rem;
+  font-size: 2.6rem;
   line-height: 1;
 }
 
@@ -601,7 +601,7 @@ body {
   }
 
   .banner h5 {
-    font-size: 1.4rem;
+    font-size: 2.4rem;
   }
 
   .banner h6 {
@@ -797,19 +797,3 @@ body {
     margin-left: 0;
   }
 }
-
-    © 2021 GitHub, Inc.
-    Terms
-    Privacy
-    Security
-    Status
-    Docs
-
-    Contact GitHub
-    Pricing
-    API
-    Training
-    Blog
-    About
-
-Loading complete

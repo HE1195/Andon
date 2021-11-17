@@ -24,8 +24,8 @@ app.layout = html.Div(
                         html.Div(
                             id="banner-text",
                             children=[
-                                html.H5("Manufacturing SPC Dashboard"),
-                                html.H6("Process Control and Exception Reporting"),
+                                html.H5("SIEMENS"),
+                                html.H6("Schaltanlagenwerk Frankfurt  - Andon Board Kostenstelle 605"),
                             ],
                         ),
                         html.Div(
@@ -44,13 +44,6 @@ app.layout = html.Div(
                             value="tab2",
                             className="custom-tabs",
                             children=[
-                                dcc.Tab(
-                                    id="Specs-tab",
-                                    label="Specification Settings",
-                                    value="tab1",
-                                    className="custom-tab",
-                                    selected_className="custom-tab--selected",
-                                ),
                                 dcc.Tab(
                                     id="Control-chart-tab",
                                     label="Control Charts Dashboard",
